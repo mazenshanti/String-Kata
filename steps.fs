@@ -40,7 +40,10 @@ let findDelimiter (inp: string)=
   let mutable delimiter = ","
   if inp.Length > 0 then
     if inp.[0] = '/' then
-      delimiter <- string(inp.[2])
+      if inp.[2] = '[' then
+        delimiter <- string(inp.[3])
+      else
+        delimiter <- string(inp.[2])
     else delimiter <- ","
   else delimiter <- ","
   delimiter
