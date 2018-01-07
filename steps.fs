@@ -48,6 +48,21 @@ let findDelimiter (inp: string)=
   else delimiter <- ","
   delimiter
   
+let findMultipleDelimiter (inp: string)=
+    let delimiters = new List<string>()
+    if inp.Length > 0 then
+        if inp.[0] = '/' then
+          if inp.[2] = '[' then
+              let delimiterL1 = inp.[3..].Split[|'['|]
+              for del in delimiterL1 do
+                let delimiterL2 = del.Split[|']'|]
+                delimiters.Add(string(delimiterL2.[0].[0]))
+          else delimiters.Add(string(inp.[2]))
+          delimiters
+        else delimiters
+    else delimiters
+    delimiters
+
 let removeCompareThan (nums:int[], tool:string, number:int)=
     if tool = ">" then
         Array.choose (fun x -> if x > number then None else Some(x)) nums
@@ -61,9 +76,13 @@ let removeCompareThan (nums:int[], tool:string, number:int)=
         Array.choose (fun x -> if x = number then None else Some(x)) nums
         
 let input = Console.ReadLine()
-let delimiter = (findDelimiter (input))
-let input2 = input.Replace("\\n",delimiter)
-let nums = spliter (input2, delimiter.[0])
+let delimiters = (findMultipleDelimiter (input))
+let input2 = input.Replace("\\n",",")
+let mutable input3 = input2
+for delimiter in delimiters do
+    input3 <- input3.Replace(delimiter,",")
+let nums = spliter (input3, ',')
+
 let temp = checkForNegatives (nums)
 if not(temp.Count > 0) then
   let comp = removeCompareThan (nums, ">", 1000)
@@ -74,7 +93,6 @@ else
     raise (InnerError(temp))
   with
     | InnerError(temp) -> printfn "negatives not allowed %A" temp
-  
 
 
 
