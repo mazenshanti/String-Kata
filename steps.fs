@@ -1,20 +1,21 @@
 open System
 
-let addString (x, y) = int(x) + int(y)
+let addArray (arr) = Array.sum arr
 
-let add (str : string) = 
-    let mutable sum = 0
-    if str.Length > 0 then
-      let strSplit = str.Split[|','|]
-      let strLength = strSplit.Length
-      if strLength = 1 then 
-        sum <- addString (strSplit.[0], "0")
-      elif strLength = 2 then
-        sum <- addString (strSplit.[0], strSplit.[1])
-      else sum <- -1
-    else sum <- 0
-    sum
+let spliter (strs : string) = 
+  let mutable nums = Array.zeroCreate 1
+  if strs.Length > 0 then
+    let strsSplit = strs.Split[|','|]
+    let strLength = strsSplit.Length
+    nums <- Array.zeroCreate strLength 
+    for i in [0 .. (strLength - 1)] do
+      nums.[i] <- int(strsSplit.[i])
+    nums
+  else
+  nums
+    
 
 let input = Console.ReadLine()
-let answer = add(input)
+let nums = spliter (input)
+let answer = addArray (nums)
 printfn "%d" answer
