@@ -21,9 +21,23 @@ let spliter (strs : string, splitType) =
     nums
   else
   nums
-    
 
-let input = (Console.ReadLine()).Replace("\\n",",")
-let nums = spliter (input, ',')
+let findDelimiter (inp: string)= 
+  let mutable delimiter = ""
+  if inp.[0] = '/' then
+    delimiter <- string(inp.[2])
+  else delimiter <- ","
+  delimiter
+    
+let input = Console.ReadLine()
+let delimiter = (findDelimiter (input))
+let input2 = input.Replace("\\n",delimiter)
+let nums = spliter (input2, delimiter.[0])
+
 let answer = addArray (nums)
 printfn "%d" answer
+
+
+
+
+
