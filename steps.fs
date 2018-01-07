@@ -45,13 +45,26 @@ let findDelimiter (inp: string)=
   else delimiter <- ","
   delimiter
   
+let removeCompareThan (nums:int[], tool:string, number:int)=
+    if tool = ">" then
+        Array.choose (fun x -> if x > number then None else Some(x)) nums
+    elif tool = "<" then
+        Array.choose (fun x -> if x < number then None else Some(x)) nums
+    elif tool = ">=" then
+        Array.choose (fun x -> if x >= number then None else Some(x)) nums
+    elif tool = "<=" then
+        Array.choose (fun x -> if x >= number then None else Some(x)) nums
+    else 
+        Array.choose (fun x -> if x = number then None else Some(x)) nums
+        
 let input = Console.ReadLine()
 let delimiter = (findDelimiter (input))
 let input2 = input.Replace("\\n",delimiter)
 let nums = spliter (input2, delimiter.[0])
 let temp = checkForNegatives (nums)
 if not(temp.Count > 0) then
-  let answer = addArray (nums)
+  let comp = removeCompareThan (nums, ">", 1000)
+  let answer = addArray (comp)
   printfn "%d" answer
 else
   try
